@@ -1,0 +1,35 @@
+tenants:
+  fashion_store:
+    display_name: Fashion Store
+    skill_sources:
+      - examples/skills/common
+      - examples/skills/tenants/fashion_store
+    knowledge_paths:
+      - examples/data/tenants/fashion_store/knowledge
+    enabled_providers:
+      model: mock
+      runtime: mock
+    guardrail_policy:
+      high_risk_keywords:
+        - refund
+        - change address
+        - change order
+    script_permissions:
+      allowed: []
+  electronics_store:
+    display_name: Electronics Store
+    skill_sources:
+      - examples/skills/common
+      - examples/skills/tenants/electronics_store
+    knowledge_paths:
+      - examples/data/tenants/electronics_store/knowledge
+    enabled_providers:
+      model: mock
+      runtime: mock
+    guardrail_policy:
+      high_risk_keywords:
+        - refund
+        - warranty exception
+        - change order
+    script_permissions:
+      allowed: []

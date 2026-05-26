@@ -83,6 +83,13 @@
 <!--
   ACTION REQUIRED: The content in this section represents placeholders.
   Fill them out with the right functional requirements.
+  This repository's constitution requires formal specs to capture:
+  - MVP boundaries and explicit non-goals
+  - tenant isolation expectations for tenant/user/session scoped data
+  - provider/adapter boundaries for pluggable architecture
+  - skill activation, resource, and permission boundaries when skills are involved
+  - Human-in-the-loop behavior for high-risk actions
+  - audit events and mock-provider/API verification paths
 -->
 
 ### Functional Requirements
@@ -102,6 +109,21 @@
 
 - **[Entity 1]**: [What it represents, key attributes without implementation]
 - **[Entity 2]**: [What it represents, relationships to other entities]
+
+### Constitution Alignment *(mandatory)*
+
+- **Formal Source**: [Confirm this spec is the authoritative feature source and
+  list any brainstorming/research documents used only as references]
+- **Pluggable Boundaries**: [List provider/adapter abstractions affected by this
+  feature and what must remain replaceable]
+- **Tenant Isolation**: [Describe how tenant/user/session scoped data stays
+  isolated]
+- **Skill Boundaries**: [If skills are involved, describe activation,
+  resources, scripts, and permission limits; otherwise state N/A]
+- **Human-in-the-loop**: [Describe high-risk actions and whether they are
+  blocked, escalated, or converted into approval/handoff payloads]
+- **Audit and Testability**: [List required audit events plus API/manual and
+  automated acceptance paths, including mock provider behavior where relevant]
 
 ## Success Criteria *(mandatory)*
 

@@ -40,7 +40,25 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+The plan MUST document how the feature satisfies the project constitution:
+
+- **Spec Kit source of truth**: Confirm the feature is driven by current
+  `spec.md`, `plan.md`, and later `tasks.md`; identify any Superpowers
+  brainstorming input as reference-only material.
+- **Pluggable architecture**: Identify provider/adapter boundaries touched by
+  the feature and confirm business logic does not depend directly on concrete
+  SDKs or provider-specific fields.
+- **Tenant isolation**: Explain how `tenant_id`, `user_id`, and `session_id`
+  context is propagated and how cross-tenant access is prevented.
+- **Skills as domain boundaries**: Explain how skill instructions, references,
+  assets, scripts, permissions, and activation are constrained by platform
+  policies.
+- **Runnable, auditable, testable MVP**: List REST/API verification paths,
+  mock-provider coverage, required audit events, guardrail checks, and
+  Human-in-the-loop behavior.
+
+Any violation MUST be recorded in Complexity Tracking with the simpler
+alternative that was rejected.
 
 ## Project Structure
 

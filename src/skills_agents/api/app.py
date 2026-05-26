@@ -137,6 +137,10 @@ def create_app(
     def create_session(request: CreateSessionRequest):
         if request.tenant_id not in tenants:
             return _unknown_tenant(request.tenant_id)
+        try:
+            paths.memory_path(request.tenant_id, request.user_id)
+        except ValueError:
+            return _error(400, "invalid_user_id", "user_id contains unsafe path characters.")
         context = TenantContext(
             tenant_id=request.tenant_id,
             user_id=request.user_id,
@@ -182,8 +186,16 @@ def create_app(
             user_id=request.user_id,
             session_id=request.session_id,
         )
-        session_state = memory_store.load(context)
-        if not paths.session_path(request.tenant_id, request.session_id).exists():
+        try:
+            session_path = paths.session_path(request.tenant_id, request.session_id)
+        except ValueError:
+            return _error(400, "invalid_session_id", "session_id contains unsafe path characters.")
+        try:
+            paths.memory_path(request.tenant_id, request.user_id)
+            session_state = memory_store.load(context)
+        except ValueError:
+            return _error(400, "invalid_user_id", "user_id contains unsafe path characters.")
+        if not session_path.exists():
             return _error(404, "session_not_found", "No session exists for this tenant and session_id.")
         if session_state.get("user_id") != request.user_id:
             return _error(403, "session_user_mismatch", "Session does not belong to this user.")

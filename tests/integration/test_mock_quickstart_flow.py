@@ -183,3 +183,48 @@ def test_chat_rejects_session_user_mismatch_and_supports_skill_id(tmp_path):
     assert mismatch.json()["error"] == "session_user_mismatch"
     assert cross_tenant_id.status_code == 400
     assert cross_tenant_id.json()["error"] == "skill_not_enabled"
+
+
+def test_chat_rejects_unsafe_session_id(tmp_path):
+    from skills_agents.api.app import create_app
+
+    client = TestClient(
+        create_app(
+            tenant_config_path=Path("examples/config/tenants.yaml"),
+            data_root=tmp_path,
+        ),
+        raise_server_exceptions=False,
+    )
+
+    response = client.post(
+        "/v1/chat",
+        json={
+            "tenant_id": "fashion_store",
+            "user_id": "user_demo",
+            "session_id": "../escape",
+            "message": "Can I return this jacket?",
+        },
+    )
+
+    assert response.status_code == 400
+    assert response.json()["error"] == "invalid_session_id"
+
+
+def test_create_session_rejects_unsafe_user_id(tmp_path):
+    from skills_agents.api.app import create_app
+
+    client = TestClient(
+        create_app(
+            tenant_config_path=Path("examples/config/tenants.yaml"),
+            data_root=tmp_path,
+        ),
+        raise_server_exceptions=False,
+    )
+
+    response = client.post(
+        "/v1/sessions",
+        json={"tenant_id": "fashion_store", "user_id": "../user"},
+    )
+
+    assert response.status_code == 400
+    assert response.json()["error"] == "invalid_user_id"

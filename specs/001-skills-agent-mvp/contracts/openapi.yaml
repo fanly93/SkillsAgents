@@ -47,7 +47,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ChatResponse"
         "400":
-          description: Invalid request, disabled skill, unsafe skill reference, or failed handoff trigger input
+          description: Invalid request, invalid user/session id, disabled skill, unsafe skill reference, or failed handoff trigger input
           content:
             application/json:
               schema:
@@ -424,7 +424,8 @@ components:
       description: >
         Standard error response. Common MVP error codes include
         `unknown_tenant`, `session_not_found`, `session_user_mismatch`,
-        `skill_not_enabled`, `invalid_tenant_id`, and `task_not_found`.
+        `skill_not_enabled`, `invalid_tenant_id`, `invalid_user_id`,
+        `invalid_session_id`, and `task_not_found`.
       required:
         - error
         - message
